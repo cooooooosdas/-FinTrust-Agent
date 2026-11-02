@@ -1,7 +1,7 @@
 {
   "archive": "D:\\jingshu\\submission\\03_金枢完整源代码.zip",
-  "size_bytes": 789502,
-  "file_count": 131,
+  "size_bytes": 790681,
+  "file_count": 132,
   "directory_count": 27,
   "zip_test": "PASS",
   "required_missing": [],
@@ -130,6 +130,7 @@
     "jingshu/frontend/tailwind.config.js",
     "jingshu/frontend/tsconfig.json",
     "jingshu/frontend/vite.config.ts",
+    "jingshu/LICENSE",
     "jingshu/README.md",
     "jingshu/start_backend.bat",
     "jingshu/start_frontend.bat",

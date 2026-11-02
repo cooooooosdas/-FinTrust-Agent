@@ -28,6 +28,7 @@ EXCLUDED_SUFFIXES = {
 EXCLUDED_NAMES = {".env", ".env.local", ".env.development", ".env.production", ".coverage"}
 REQUIRED = [
     "jingshu/README.md",
+    "jingshu/LICENSE",
     "jingshu/.gitignore",
     "jingshu/start_backend.bat",
     "jingshu/start_frontend.bat",
@@ -84,7 +85,7 @@ def should_include(path: Path) -> bool:
 def collect_candidates():
     candidates: list[Path] = []
     # 明确纳入独立部署所需的根文件和后端/前端源码。
-    for rel in ["README.md", ".gitignore", "start_backend.bat", "start_frontend.bat"]:
+    for rel in ["README.md", "LICENSE", ".gitignore", "start_backend.bat", "start_frontend.bat"]:
         p = ROOT / rel
         if p.exists():
             candidates.append(p)
