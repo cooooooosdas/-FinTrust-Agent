@@ -1,0 +1,12 @@
+{
+  "name": "fintrust-submission-build",
+  "version": "1.0.0",
+  "private": true,
+  "description": "金枢 FinTrust Agent V1.0.0 竞赛交付材料生成脚本（技术设计说明书 / 安全自评报告 / 答辩 PPT / 源码包）",
+  "scripts": {
+    "build:ppt": "node build_pptx.js"
+  },
+  "dependencies": {
+    "pptxgenjs": "^4.0.1"
+  }
+}

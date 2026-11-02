@@ -7,9 +7,36 @@
 
 ---
 
+## 系统实拍
+
+以下截图均为**本地真实运行的前后端系统**采集，未做任何伪造或美化修饰。
+
+**AI 工作台 — DAG 规划与执行轨迹展开**
+
+![AI 工作台 DAG 执行轨迹](docs/screenshots/03_agent_dag_expanded.png)
+
+**账户总览**
+
+![账户总览](docs/screenshots/02_dashboard.png)
+
+**智能转账 — 三级权限策略与日累计**
+
+![智能转账页](docs/screenshots/04_transfer_yellow.png)
+
+**审计完整性验证 — 哈希链校验 PASS**
+
+![审计完整性验证](docs/screenshots/05_audit_pass.png)
+
+**登录页**
+
+![登录页](docs/screenshots/01_login.png)
+
+---
+
 ## 目录
 
 - [核心特性](#核心特性)
+- [系统实拍](#系统实拍)
 - [技术栈](#技术栈)
 - [快速开始](#快速开始)
 - [项目结构](#项目结构)
@@ -19,6 +46,7 @@
 - [环境变量说明](#环境变量说明)
 - [数据库与初始化脚本](#数据库与初始化脚本)
 - [测试](#测试)
+- [竞赛交付材料](#竞赛交付材料)
 - [文档索引](#文档索引)
 - [重要声明](#重要声明)
 
@@ -205,7 +233,26 @@ jingshu/
 │   ├── ARCHITECTURE.md             # 系统架构说明
 │   ├── SECURITY.md                 # 安全设计说明
 │   ├── DEPLOYMENT.md               # 本地部署说明
-│   └── API.md                      # 接口清单
+│   ├── API.md                      # 接口清单
+│   ├── screenshots/                # 真实系统截图（由本地运行采集，未伪造）
+│   │   ├── 01_login.png
+│   │   ├── 02_dashboard.png
+│   │   ├── 03_agent_dag_expanded.png
+│   │   ├── 04_transfer_yellow.png
+│   │   ├── 04_transfer_yellow_full.png
+│   │   └── 05_audit_pass.png
+│   └── FINAL_*.md                  # 验收 / 安全审计 / 测试报告 / 已知限制等
+│
+├── submission/                     # 竞赛必交材料
+│   ├── 01_金枢技术设计说明书.pdf
+│   ├── 02_金枢答辩PPT.pptx
+│   ├── 03_金枢完整源代码.zip
+│   ├── 04_金枢安全自评报告.pdf
+│   └── build/                      # 上述四份材料的可复现生成脚本
+│       ├── build_pdfs.py           #   生成 01 / 04（ReportLab）
+│       ├── build_pptx.js           #   生成 02（pptxgenjs）
+│       ├── package_source.py       #   生成 03 并执行敏感信息审计
+│       └── zip_validation.json     #   上一次源码包校验报告
 └── README.md
 ```
 
@@ -411,6 +458,21 @@ cd frontend
 npx tsc --noEmit      # 类型检查
 npm run build         # 生产构建
 ```
+
+---
+
+## 竞赛交付材料
+
+四份必交材料位于 `submission/`，均由本仓库源码生成，内容以实际实现为事实依据：
+
+| 材料 | 文件 | 说明 |
+| --- | --- | --- |
+| 技术设计说明书 | [`submission/01_金枢技术设计说明书.pdf`](submission/) | 15 页，含架构图 / 流程图 / 状态机 / 数据表 / API / 部署 / 测试结果与技术局限 |
+| 答辩 PPT | [`submission/02_金枢答辩PPT.pptx`](submission/) | 10 页、10 分钟以内，含系统架构图、安全信任边界图与真实系统截图，每页配演讲备注 |
+| 完整源代码包 | [`submission/03_金枢完整源代码.zip`](submission/) | 124 个文件的独立部署包，已剔除 `.env`、密钥、数据库、虚拟环境与缓存 |
+| 安全自评报告 | [`submission/04_金枢安全自评报告.pdf`](submission/) | 9 页，含威胁模型、三级权限、MFA、幂等并发、注入防御、限流熔断、审计哈希链与残余风险 |
+
+生成脚本见 [`submission/tools/`](submission/tools/)，可在本仓库根目录直接复现上述全部四份材料。
 
 ---
 
