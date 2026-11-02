@@ -1,0 +1,50 @@
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ---------- 环境变量与密钥（严禁提交） ----------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ---------- 数据库 ----------
+*.db
+*.sqlite
+*.sqlite3
+*.db-wal
+*.db-shm
+backend/data/
+
+# ---------- Node ----------
+node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/*.tsbuildinfo
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---------- IDE / OS ----------
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# ---------- 本地产物 ----------
+.screenshots/
+*.log
+
+# ---------- WorkBuddy 工作区内部数据（不属于项目源码） ----------
+.workbuddy/

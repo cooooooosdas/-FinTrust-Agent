@@ -1,0 +1,274 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   金枢 FinTrust Agent · 统一设计系统
+   基调：深海军蓝 (navy) + 纯净白 + 香槟金 (champagne) 点缀
+   原则：克制的层次、可信赖的排版、真实的业务信息密度
+   ========================================================================== */
+
+@layer base {
+  :root {
+    --surface-base: #f6f7f9;
+    --surface-raised: #ffffff;
+    --surface-sunken: #eef1f5;
+    --border-subtle: #e3e8ef;
+    --border-strong: #cdd6e2;
+    --text-primary: #0a1c34;
+    --text-secondary: #40536b;
+    --text-muted: #7c8ca3;
+    --accent-gold: #c1903f;
+    --accent-gold-soft: #f6efdb;
+  }
+
+  *,
+  ::before,
+  ::after {
+    @apply border-[#e3e8ef];
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-[#f6f7f9] text-ink font-sans antialiased;
+    font-feature-settings: 'tnum' 1, 'cv05' 1;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: #ecd9ac;
+    color: #0a1c34;
+  }
+
+  /* 数字使用等宽表格数字，保证金额列对齐 */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  /* ---------- 卡片 ---------- */
+  .surface {
+    @apply bg-white border border-[#e3e8ef] rounded-xl shadow-card;
+  }
+
+  .surface-raised {
+    @apply bg-white border border-[#e3e8ef] rounded-xl shadow-lifted;
+  }
+
+  .surface-sunken {
+    @apply bg-[#f1f3f7] border border-[#e3e8ef] rounded-xl;
+  }
+
+  .surface-dark {
+    @apply bg-navy-900 text-white border border-navy-800 rounded-xl;
+  }
+
+  /* ---------- 排版 ---------- */
+  .page-title {
+    @apply text-[1.375rem] font-semibold tracking-tight text-ink;
+  }
+
+  .page-subtitle {
+    @apply text-[0.8125rem] text-ink-muted mt-1;
+  }
+
+  .section-title {
+    @apply text-[0.9375rem] font-semibold text-ink tracking-tight;
+  }
+
+  .eyebrow {
+    @apply text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-ink-muted;
+  }
+
+  /* ---------- 交互 ---------- */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg text-[0.8125rem] font-medium
+           transition-all duration-150 disabled:opacity-45 disabled:cursor-not-allowed
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-400/40
+           focus-visible:ring-offset-1 select-none whitespace-nowrap;
+  }
+
+  .btn-md {
+    @apply h-9 px-4;
+  }
+
+  .btn-sm {
+    @apply h-8 px-3 text-[0.75rem];
+  }
+
+  .btn-lg {
+    @apply h-11 px-6 text-[0.875rem];
+  }
+
+  .btn-primary {
+    @apply bg-navy-900 text-white hover:bg-navy-800 active:bg-navy-950 shadow-sm;
+  }
+
+  .btn-gold {
+    @apply bg-champagne-300 text-navy-900 hover:bg-champagne-400 active:bg-champagne-500
+           font-semibold shadow-sm;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-ink border border-[#cdd6e2] hover:bg-[#f1f3f7] hover:border-[#b6c3d4];
+  }
+
+  .btn-ghost {
+    @apply text-ink-soft hover:bg-[#eef1f5] hover:text-ink;
+  }
+
+  .btn-danger {
+    @apply bg-rose-600 text-white hover:bg-rose-700 active:bg-rose-800;
+  }
+
+  .btn-success {
+    @apply bg-emerald-600 text-white hover:bg-emerald-700;
+  }
+
+  /* ---------- 表单 ---------- */
+  .field-label {
+    @apply block text-[0.75rem] font-medium text-ink-soft mb-1.5;
+  }
+
+  .input {
+    @apply w-full h-10 px-3 rounded-lg bg-white border border-[#cdd6e2] text-[0.8125rem] text-ink
+           placeholder:text-ink-muted/70 transition-colors
+           focus:outline-none focus:border-navy-500 focus:ring-2 focus:ring-navy-500/10;
+  }
+
+  .input-lg {
+    @apply h-12 px-4 text-[0.9375rem];
+  }
+
+  select.input {
+    @apply pr-8 bg-no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237c8ca3' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-position: right 0.625rem center;
+  }
+
+  textarea.input {
+    @apply h-auto py-2.5 leading-relaxed resize-y;
+  }
+
+  /* ---------- 徽标 ---------- */
+  .badge {
+    @apply inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 text-[0.6875rem] font-medium;
+  }
+
+  .badge-neutral {
+    @apply bg-[#eef1f5] text-ink-soft;
+  }
+
+  .badge-navy {
+    @apply bg-navy-100 text-navy-700;
+  }
+
+  .badge-gold {
+    @apply bg-champagne-100 text-champagne-700;
+  }
+
+  .badge-green {
+    @apply bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-600/15;
+  }
+
+  .badge-amber {
+    @apply bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-600/20;
+  }
+
+  .badge-rose {
+    @apply bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-600/20;
+  }
+
+  /* ---------- 表格 ---------- */
+  .table-base {
+    @apply w-full text-[0.8125rem];
+  }
+
+  .table-base thead th {
+    @apply text-left text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-ink-muted
+           pb-2.5 px-3 border-b border-[#e3e8ef] whitespace-nowrap;
+  }
+
+  .table-base tbody td {
+    @apply px-3 py-3 border-b border-[#eef1f5] align-middle;
+  }
+
+  .table-base tbody tr:last-child td {
+    @apply border-b-0;
+  }
+
+  .table-base tbody tr {
+    @apply transition-colors hover:bg-[#fafbfc];
+  }
+
+  /* ---------- 侧边栏 ---------- */
+  .nav-item {
+    @apply flex items-center gap-3 rounded-lg px-3 py-2.5 text-[0.8125rem] font-medium
+           text-navy-200/75 transition-colors hover:bg-white/[0.07] hover:text-white;
+  }
+
+  .nav-item-active {
+    @apply bg-white/[0.11] text-white relative;
+  }
+
+  .nav-item-active::before {
+    content: '';
+    @apply absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[2.5px] rounded-r bg-champagne-300;
+  }
+
+  /* ---------- 金额 ---------- */
+  .amount {
+    @apply tnum font-semibold tracking-tight;
+  }
+
+  .amount-income {
+    @apply text-emerald-600;
+  }
+
+  .amount-expense {
+    @apply text-ink;
+  }
+
+  /* ---------- 加载骨架 ---------- */
+  .skeleton {
+    @apply rounded-md bg-[#e9edf3];
+    background-image: linear-gradient(
+      90deg,
+      rgba(233, 237, 243, 0) 0%,
+      rgba(255, 255, 255, 0.75) 50%,
+      rgba(233, 237, 243, 0) 100%
+    );
+    background-size: 200% 100%;
+    @apply animate-shimmer;
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #cdd6e2 transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-[#cdd6e2];
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
