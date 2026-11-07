@@ -12,8 +12,6 @@
 
 from __future__ import annotations
 
-import hashlib
-import hmac
 import time
 from typing import Optional
 
@@ -24,6 +22,7 @@ from sqlalchemy.orm import Session
 from app.core.config import settings
 from app.core.errors import AppError
 from app.models import RateLimitRecord, utcnow
+from app.security.crypto import hmac_sha256_hex
 
 
 class RateLimitedError(AppError):
@@ -38,7 +37,7 @@ def _secret() -> str:
 
 def _hmac_key(raw: str) -> str:
     """对限流键做 HMAC 脱敏，避免持久化原始 IP / 用户名。"""
-    return hmac.new(_secret().encode("utf-8"), raw.encode("utf-8"), hashlib.sha256).hexdigest()
+    return hmac_sha256_hex(_secret(), raw)
 
 
 def _window_start(seconds: int) -> int:

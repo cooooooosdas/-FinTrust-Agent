@@ -11,7 +11,6 @@
 
 from __future__ import annotations
 
-import hashlib
 import hmac
 import json
 from typing import Optional, Tuple
@@ -21,6 +20,7 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.models import AuditLog, utcnow
+from app.security.crypto import hmac_sha256_hex
 
 #: 完整性密钥（环境变量 AUDIT_HMAC_KEY，缺省用 auth_session_secret 兜底）
 def _hmac_key() -> str:
@@ -46,12 +46,8 @@ def _canonical(log: AuditLog) -> str:
     return json.dumps(obj, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
 
 
-def _hmac_sha256(key: str, data: str) -> str:
-    return hmac.new(key.encode("utf-8"), data.encode("utf-8"), hashlib.sha256).hexdigest()
-
-
 def compute_event_hash(previous_hash: str, canonical_content: str) -> str:
-    return _hmac_sha256(_hmac_key(), previous_hash + canonical_content)
+    return hmac_sha256_hex(_hmac_key(), previous_hash + canonical_content)
 
 
 def sign_audit_log(db: Session, log: AuditLog) -> None:
@@ -69,7 +65,7 @@ def sign_audit_log(db: Session, log: AuditLog) -> None:
     next_seq = (prev.sequence_id + 1) if prev else 1
 
     canonical = _canonical(log)
-    event_hash = _hmac_sha256(key, previous_hash + canonical)
+    event_hash = hmac_sha256_hex(key, previous_hash + canonical)
 
     log.sequence_id = next_seq
     log.previous_hash = previous_hash
@@ -103,7 +99,7 @@ def verify_integrity(db: Session) -> Tuple[bool, str, dict]:
             return False, "AUDIT INTEGRITY: FAILED", first_error
 
         canonical = _canonical(log)
-        expected = _hmac_sha256(key, previous_hash + canonical)
+        expected = hmac_sha256_hex(key, previous_hash + canonical)
         if not hmac.compare_digest(expected, log.event_hash):
             first_error = first_error or {
                 "sequence_id": log.sequence_id,

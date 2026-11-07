@@ -55,10 +55,17 @@
 | 层 | 目录 | 职责 | 明确**不**负责 |
 | --- | --- | --- | --- |
 | 接入层 | `app/api/routes` | 参数校验、HTTP 语义、序列化 | 业务逻辑、权限判定 |
-| Agent 层 | `app/agent` | 意图识别、参数抽取、DAG 规划、工具编排、轨迹 | **权限判定**、直接操作数据库 |
+| Agent 层 | `app/agent` | 意图识别、参数抽取、DAG 规划、工具编排、轨迹 | **权限判定**（由 `app/security/policy` 独立完成）；资金写操作不在工具内直接执行 |
 | 业务层 | `app/services` | 真实业务规则与数据读写 | 权限判定（只调用策略引擎） |
 | 安全层 | `app/security` | 权限策略、MFA、幂等、熔断、审计 | 业务逻辑 |
 | 数据层 | `app/models` + `app/core/database` | ORM 映射、会话、事务 | — |
+
+> **边界实况（2026-11-07 复核）**：Agent 工具通过注入的 `Session` 直接读取 ORM 来完成查询类任务，
+> 例如 `app/agent/tools.py:_list_audit` 直接 `select(AuditLog)`。因此「Agent 不碰数据库」**不是**
+> 当前实现的事实约束。真正被强制的边界是：工具注册表为服务端白名单，且所有资金写操作只生成
+> 待确认工单，由 `app/services` 调用 `app/security` 策略引擎后在服务端执行。
+> 该查询路径另有一条已记录的残余风险（`_list_audit` 未按当前 actor 过滤），
+> 见 `FINAL_KNOWN_LIMITATIONS.md` 第十一节。
 
 ### 2.1 为什么权限引擎必须独立
 
@@ -109,7 +116,7 @@ PlanNode(
 )
 ```
 
-`Plan.topological_order()` 做 Kahn 式拓扑排序并带环检测保护。
+`Plan.topological_order()`（`app/agent/planner.py:57`）采用 **DFS 三色标记**（未访问 / 访问中 / 已完成）做依赖优先输出：先递归访问 `depends_on`，再把当前节点追加到结果，因此依赖节点必排在被依赖节点之前。遇到「访问中」节点（即存在环）时**跳过该依赖**以避免死循环，不抛异常。它不是基于入度队列的 Kahn 算法；由于当前 DAG 由固定意图模板生成且不含环，两种算法的输出顺序一致。
 
 ### 3.2 转账链路示例
 

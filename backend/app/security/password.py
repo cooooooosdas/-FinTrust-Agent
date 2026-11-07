@@ -10,6 +10,8 @@ import hashlib
 import hmac
 import secrets
 
+from app.security.crypto import hmac_sha256_hex
+
 #: PBKDF2 迭代次数（SHA256）
 PBKDF2_ITERATIONS = 260_000
 #: 盐长度（字节）
@@ -42,7 +44,7 @@ def verify_password(password: str, encoded: str) -> bool:
 
 def token_hash(token: str, secret: str) -> str:
     """对 Session Token 做 HMAC 摘要（服务端仅存摘要，不存明文）。"""
-    return hmac.new(secret.encode("utf-8"), token.encode("utf-8"), hashlib.sha256).hexdigest()
+    return hmac_sha256_hex(secret, token)
 
 
 __all__ = ["hash_password", "verify_password", "token_hash", "PBKDF2_ITERATIONS"]

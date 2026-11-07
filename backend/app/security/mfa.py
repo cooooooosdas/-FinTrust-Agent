@@ -9,7 +9,6 @@
 
 from __future__ import annotations
 
-import hashlib
 import hmac
 import secrets
 from dataclasses import dataclass
@@ -21,6 +20,7 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.models import MfaChallenge, utcnow
+from app.security.crypto import hmac_sha256_hex
 
 
 @dataclass
@@ -39,7 +39,7 @@ def _secret() -> str:
 
 
 def _code_hash(code: str) -> str:
-    return hmac.new(_secret().encode("utf-8"), code.encode("utf-8"), hashlib.sha256).hexdigest()
+    return hmac_sha256_hex(_secret(), code)
 
 
 class MfaService:

@@ -372,7 +372,7 @@ def build_technical():
             ["资金边界", "全部账户、余额、卡片、收款人、交易流水均为本地模拟，且交易记录带 is_simulated 标记"],
         ], [35*mm, 135*mm]),
         Spacer(1, 5),
-        P("重要一致性说明：统一交付名称为“金枢 FinTrust Agent V1.0.0”；但 FastAPI /health 与根路由当前仍返回 version=0.1.0。该元数据差异不影响业务功能，已列入交付验收问题。", "QuoteCN"),
+        P("版本一致性：交付名称统一为“金枢 FinTrust Agent V1.0.0”。后端版本号由 app/__init__.py 的 __version__ 单一真源提供，FastAPI 应用元数据、根路由与 /health 均引用该常量；前端 package.json 与 package-lock.json 已同步对齐 1.0.0。", "QuoteCN"),
         P("目录", "H1CN"),
         P("1. 项目背景与设计目标　2. 系统整体架构　3. 模块划分　4. Agent 工作流程　5. 核心算法实现　6. 核心业务闭环　7. 数据库设计　8. API 接口设计　9. 部署环境与运行方式　10. 测试结果　11. 技术局限　12. 源码索引", "BodyCN"),
         PageBreak(),
@@ -626,7 +626,7 @@ def build_technical():
             ["审计尾部", "最后一条或全部已签名记录删除可能不产生 sequence 缺口；未签名记录不参与验证", "检测能力边界"],
             ["审计原子性", "业务扣款提交与审计签名不是同一事务，极端失败窗口可能留下业务已完成但审计未完成", "诚实声明"],
             ["Agent 工具审计", "list_audit 工具查询未按当前 actor 过滤；Agent 会话复用缺少账户一致性核对", "已知授权缺口"],
-            ["元数据", "FastAPI health/root 仍返回 0.1.0；frontend package-lock 根版本与 package.json 不一致", "不影响业务，待统一"],
+            ["版本元数据", "后端 __version__ / FastAPI /health / 根路由与前端 package.json、package-lock.json 已统一为 1.0.0", "已对齐，无残留差异"],
             ["文档历史口径", "个别早期 docs 阈值、测试数量、算法描述与当前代码不一致", "本文以源码为准"],
         ], [32*mm, 99*mm, 39*mm]),
 

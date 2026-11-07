@@ -78,7 +78,7 @@ Header：`Authorization: Bearer <token>` —— 撤销当前会话（后续请�
 
 ```json
 {
-  "status": "ok", "app": "金枢 FinTrust Agent", "version": "0.1.0",
+  "status": "ok", "app": "金枢 FinTrust Agent", "version": "1.0.0",
   "environment": "development", "demo_mode": true,
   "demo_mode_notice": "当前未配置大模型 API Key……", "llm_configured": false,
   "database": "connected", "time": "2026-11-01T13:43:54.261735"

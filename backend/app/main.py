@@ -17,6 +17,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from app import __version__
 from app.agent.llm import llm_client
 from app.api.routes import accounts, agent, audit, auth, cards, payees, system, transactions, transfers
 from app.core.config import settings
@@ -97,7 +98,7 @@ app = FastAPI(
         "面向银行业务的可信 AI 智能体系统。内置三级权限策略引擎（绿 / 黄 / 红），"
         "权限判定完全在服务端执行，模型无法自行决定操作范围。"
     ),
-    version="0.1.0",
+    version=__version__,
     lifespan=lifespan,
     docs_url="/docs",
     redoc_url="/redoc",
@@ -161,7 +162,7 @@ def root() -> JSONResponse:
     return JSONResponse(
         {
             "app": settings.app_name,
-            "version": "0.1.0",
+            "version": __version__,
             "docs": "/docs",
             "api": settings.api_prefix,
             "demo_mode": not llm_client.enabled,

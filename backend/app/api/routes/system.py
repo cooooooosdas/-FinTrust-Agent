@@ -8,6 +8,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
+from app import __version__
 from app.agent.llm import llm_client
 from app.api.deps import db_session
 from app.core.config import settings
@@ -27,7 +28,7 @@ def health(db: Session = Depends(db_session)) -> HealthResponse:
     return HealthResponse(
         status="ok" if db_status == "connected" else "degraded",
         app=settings.app_name,
-        version="0.1.0",
+        version=__version__,
         environment=settings.app_env,
         demo_mode=settings.is_demo_mode,
         demo_mode_notice=llm_client.demo_notice,

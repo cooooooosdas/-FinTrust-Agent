@@ -7,6 +7,7 @@ from typing import Optional
 from fastapi import Depends, Header, Query, Request
 from sqlalchemy.orm import Session
 
+from app.core.config import settings
 from app.core.database import get_db
 from app.core.errors import UnauthorizedError
 from app.models import User
@@ -92,10 +93,15 @@ def current_actor(user: User = Depends(current_user)) -> str:
 # ----------------------------------------------------------------------
 # 请求限流
 # ----------------------------------------------------------------------
+# 说明：下面 rate_limit / rate_limit_by_ip 两个依赖工厂目前**未被任何路由接入**。
+# 现行限流由各路由直接调用 app.security.rate_limiter.check_and_increment，
+# 以便按各自 scope / identifier / window 精确控制。这两个工厂保留为后续统一
+# 接入的扩展点，勿误以为它们已在请求链路上生效。
 def client_ip(request: Request) -> str:
     """获取真实客户端 IP。默认不信任 X-Forwarded-For（仅本地直连）。"""
-    # 仅当明确配置了可信代理时才使用 X-Forwarded-For
-    trusted_proxy = getattr(__import__("app.core.config", fromlist=["settings"]).settings, "trusted_proxy", "")
+    # Settings 当前未定义 trusted_proxy 字段，getattr 恒返回 ""，
+    # 即 X-Forwarded-For 分支不可达；保留占位以便后续显式配置后启用。
+    trusted_proxy = getattr(settings, "trusted_proxy", "")
     if trusted_proxy:
         xff = request.headers.get("x-forwarded-for")
         if xff:

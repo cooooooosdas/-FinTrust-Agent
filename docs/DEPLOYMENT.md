@@ -69,10 +69,10 @@ cp .env.example .env      # Windows: copy .env.example .env
 .venv\Scripts\python.exe scripts/init_db.py --recreate
 ```
 
-预期输出：
+预期输出（「数据库路径」一行由 `init_db.py` 按本机实际位置打印，此处以占位符示意）：
 
 ```
-数据库路径：sqlite:///D:/jingshu/backend/data/fintrust.db
+数据库路径：sqlite:///<仓库所在路径>/backend/data/fintrust.db
 → 正在重建表结构…
   已删除全部旧表
   已按最新模型重建表结构
@@ -98,7 +98,7 @@ curl http://127.0.0.1:8000/api/v1/health
 ```
 
 ```json
-{"status":"ok","app":"金枢 FinTrust Agent","version":"0.1.0","environment":"development",
+{"status":"ok","app":"金枢 FinTrust Agent","version":"1.0.0","environment":"development",
  "demo_mode":true,"database":"connected","time":"..."}
 ```
 

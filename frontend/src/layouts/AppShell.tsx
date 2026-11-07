@@ -196,7 +196,7 @@ export default function AppShell({ onLogout }: { onLogout: () => void }) {
                 </span>
               )}
               <span className="hidden md:inline text-[0.6875rem] text-ink-muted font-mono">
-                v{health?.version ?? '0.1.0'}
+                v{health?.version ?? '1.0.0'}
               </span>
               <button
                 className="btn btn-sm btn-ghost px-2 gap-1.5"
